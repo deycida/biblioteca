@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{% if form.titulo.data %}Editar Libro{% else %}Crear Libro{% endif %}</h3>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">{{ form.titulo.label }} {{ form.titulo(class="form-control") }}</div>
+    <div class="mb-3">{{ form.autor.label }} {{ form.autor(class="form-control") }}</div>
+    <div class="mb-3">{{ form.categoria_id.label }} {{ form.categoria_id(class="form-select") }}</div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}
