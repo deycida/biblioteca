@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-4">Dashboard Inteligente</h3>
+<div class="row mb-3">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Total de libros</h5>
+        <p class="card-text fs-4">{{ total_libros }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Total de categorías</h5>
+        <p class="card-text fs-4">{{ total_categorias }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert alert-info">
+  <h5>Análisis automático</h5>
+  <p>{{ analisis }}</p>
+</div>
+<h4 class="mt-4">📊 Libros por categoría</h4>
+<canvas id="librosChart" width="400" height="200"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('librosChart').getContext('2d');
+const librosChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ categorias_nombres|tojson }},
+        datasets: [{
+            label: 'Cantidad de libros',
+            data: {{ libros_por_categoria|tojson }},
+            backgroundColor: 'rgba(13, 110, 253, 0.6)',
+            borderColor: 'rgba(13, 110, 253, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+</script>
+{% endblock %}
