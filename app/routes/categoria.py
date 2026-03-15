@@ -3,9 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Categoria, db
 from app.forms import CategoriaForm
 from functools import wraps
-
 categoria_bp = Blueprint('categoria', __name__, url_prefix='/categoria')
-
 def admin_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -13,7 +11,6 @@ def admin_required(func):
             abort(403)
         return func(*args, **kwargs)
     return wrapper
-
 @categoria_bp.route('/')
 @login_required
 @admin_required
@@ -21,7 +18,6 @@ def listar():
     busqueda = request.args.get('busqueda', '')
     categorias = Categoria.query.filter(Categoria.nombre.contains(busqueda)).all()
     return render_template('categoria/listar.html', categorias=categorias, busqueda=busqueda)
-
 @categoria_bp.route('/crear', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -34,7 +30,6 @@ def crear():
         flash('Categoría creada', 'success')
         return redirect(url_for('categoria.listar'))
     return render_template('categoria/crear.html', form=form)
-
 @categoria_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -47,7 +42,6 @@ def editar(id):
         flash('Categoría actualizada', 'success')
         return redirect(url_for('categoria.listar'))
     return render_template('categoria/editar.html', form=form)
-
 @categoria_bp.route('/eliminar/<int:id>')
 @login_required
 @admin_required
